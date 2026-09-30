@@ -195,3 +195,27 @@ void matrix_multiply_scalar(struct matrix* A, float num, struct matrix** y)
 
     return;
 }
+
+void matrix_apply_func(struct matrix* A, float* func(float), struct matrix** y)
+{
+    struct matrix* temporary = init_matrix(A->rows, A->columns);
+
+    // making a new matrix failed
+    if (temporary == NULL) {
+        *y = NULL;
+        return;
+    }
+
+    // Apply the function to every element of the matrix here
+    for (int i = 0; i < A->rows; i++) {
+        for (int j = 0; j < A->columns; j++) {
+            temporary->matrix_ptr[i][j] = *func(A->matrix_ptr[i][j]);
+        }
+    }
+
+    // free the old result and update the pointer to the result
+    free_matrix(y);
+    *y = temporary;
+
+    return;
+}
