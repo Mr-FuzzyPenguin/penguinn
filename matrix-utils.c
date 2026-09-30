@@ -134,3 +134,26 @@ void matrix_add(struct matrix* A, struct matrix* B, struct matrix** y)
 
     return;
 }
+
+void matrix_multiply_scalar(struct matrix* A, float num, struct matrix** y)
+{
+    free_matrix(y);
+    *y = NULL;
+
+    // Try to make a new matrix
+    *y = init_matrix(A->rows, A->columns);
+
+    // making a new matrix failed
+    if (*y == NULL) {
+        return;
+    }
+
+    // Do the adding here.
+    for (int i = 0; i < A->rows; i++) {
+        for (int j = 0; j < A->columns; j++) {
+            (*y)->matrix_ptr[i][j] = A->matrix_ptr[i][j] * num;
+        }
+    }
+
+    return;
+}
