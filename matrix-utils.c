@@ -76,7 +76,7 @@ void disp_matrix(struct matrix* m)
 void matrix_multiply(struct matrix* A, struct matrix* b, struct matrix** y)
 {
     // first free result
-    free(*y);
+    free_matrix(y);
     *y = NULL;
 
     // then answer the question.
@@ -103,6 +103,34 @@ void matrix_multiply(struct matrix* A, struct matrix* b, struct matrix** y)
         }
     }
 
-    // todo
+    return;
+}
+
+void matrix_add(struct matrix* A, struct matrix* B, struct matrix** y)
+{
+    free_matrix(y);
+    *y = NULL;
+
+    // check if A and B are not the same dimensions, because if so, early return
+    // it makes no sense to add the matrices otherwise
+    if (A->columns != B->columns || A->rows != B->rows) {
+        return;
+    }
+
+    // otherwise... Try to make a new matrix
+    *y = init_matrix(A->rows, A->columns);
+
+    // making a new matrix failed
+    if (*y == NULL) {
+        return;
+    }
+
+    // Do the adding here.
+    for (int i = 0; i < A->rows; i++) {
+        for (int j = 0; j < A->columns; j++) {
+            (*y)->matrix_ptr[i][j] = A->matrix_ptr[i][j] + B->matrix_ptr[i][j];
+        }
+    }
+
     return;
 }
