@@ -1,13 +1,13 @@
 CC = gcc
-CFLAGS = -I.
+LDLIBS = -lm
 
-output: main.o matrix-utils.o penguinn-utils.o
-	$(CC) $(CFLAGS) -o output.out *.o
+output.out:
+	$(CC) *.c $(LDLIBS) -o output.out
 	./output.out
 
-debug: main.o matrix-utils.o penguinn-utils.o
-	$(CC) $(CFLAGS) -g -o output.out *.o
+debug:
+	$(CC) -g *.c $(LDLIBS) -o output.out
 	gdb ./output.out
 
 clean:
-	rm -f output main.o matrix-utils.o penguinn-utils.o
+	rm -f *.out *.o
