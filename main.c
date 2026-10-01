@@ -20,18 +20,20 @@ int main(void)
     }
     disp_matrix(A);
 
-    puts("multiplied by...");
+    puts("applied by SiLU...");
 
-    for (int i = 0; i < b->rows; i++) {
-        for (int j = 0; j < b->columns; j++) {
-            b->matrix_ptr[i][j] = (int)pseudo_rng(seed, &state) & 10;
-        }
-    }
-    disp_matrix(b);
+    // for (int i = 0; i < b->rows; i++) {
+    //     for (int j = 0; j < b->columns; j++) {
+    //         b->matrix_ptr[i][j] = (int)pseudo_rng(seed, &state) & 10;
+    //     }
+    // }
+    // disp_matrix(b);
+    //
+    // matrix_multiply(A, b, &result);
 
-    matrix_multiply(A, b, &result);
+    matrix_apply_func(A, silu, &A);
     puts("=");
-    disp_matrix(result);
+    disp_matrix(A);
 
     return 0;
 }
