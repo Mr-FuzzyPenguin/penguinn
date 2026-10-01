@@ -3,10 +3,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define INITIAL_STATE 5129
+#define RANDOM_SEED 71
+
 int main(void)
 {
-    int seed = 71;
-    int state = 5129;
+    struct rand r = { RANDOM_SEED, INITIAL_STATE };
 
     struct matrix* A = init_matrix(2, 3);
     struct matrix* b = init_matrix(3, 5);
@@ -15,7 +17,7 @@ int main(void)
 
     for (int i = 0; i < A->rows; i++) {
         for (int j = 0; j < A->columns; j++) {
-            A->matrix_ptr[i][j] = (int)(pseudo_rng(seed, &state)) % 10;
+            A->matrix_ptr[i][j] = (int)(pseudo_rng(&r)) % 10;
         }
     }
     disp_matrix(A);

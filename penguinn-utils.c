@@ -1,9 +1,10 @@
 #include "penguinn-utils.h"
 #include <math.h>
-double pseudo_rng(int seed, int* state)
+
+double pseudo_rng(struct rand* r)
 {
-    double result = (double)(seed * *state % 65536) / 256;
-    *state = (int)((seed * result) + 17);
+    double result = (double)(r->seed * r->state % 65536) / 256;
+    r->state = (int)((r->seed * result) + 17);
 
     return result;
 }
