@@ -39,3 +39,5 @@
 - Data annotation completed for all 911 images
 - Used working scraper (not publicized) to download 925 new test cases but no data annotation yet (not publicized yet)
 - `silu_derivative()` written
+- Delete the stale branches
+- Fixed Makefile
