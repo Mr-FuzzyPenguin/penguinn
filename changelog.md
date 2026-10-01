@@ -26,7 +26,6 @@
 - Made Git repo and uploaded to GitHub
 - Made 3 branches to work on individual components
 - Used working scraper (not publicized) to download 911 new test cases but no data annotation yet (not publicized yet)
-- Used working scraper (not publicized) to download 991 new test cases but no data annotation yet (not publicized yet)
 
 ## 09/30/2026:
 ### C-programming side:
