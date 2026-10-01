@@ -2,4 +2,5 @@
 #define PENGUINN_UTILS_H
 double pseudo_rng(int seed, int* state);
 float silu(float x);
+float silu_derivative(float x);
 #endif
