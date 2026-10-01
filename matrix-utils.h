@@ -12,5 +12,5 @@ void free_matrix(struct matrix** m);
 void disp_matrix(struct matrix* m);
 void matrix_multiply(struct matrix* A, struct matrix* b, struct matrix** y);
 void matrix_add(struct matrix* A, struct matrix* B, struct matrix** y);
-void matrix_apply_func(struct matrix* A, float* func(float), struct matrix** y);
+void matrix_apply_func(struct matrix* A, float (*func)(float), struct matrix** y);
 #endif

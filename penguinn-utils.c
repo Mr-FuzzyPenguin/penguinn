@@ -1,3 +1,4 @@
+#include "penguinn-utils.h"
 #include <math.h>
 double pseudo_rng(int seed, int* state)
 {
@@ -9,13 +10,13 @@ double pseudo_rng(int seed, int* state)
 
 float silu(float x)
 {
-    return x / 1 + exp(-1 * x);
+    return x / (1.0f + expf(-x));
 }
 
 float silu_derivative(float x)
 {
-    float pwr = exp(-1 * x);
-    float a = 1 + pwr;
+    float pwr = expf(-x);
+    float a = 1.0f + pwr;
 
     return (a + x * pwr) / (a * a);
 }

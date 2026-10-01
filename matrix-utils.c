@@ -196,7 +196,7 @@ void matrix_multiply_scalar(struct matrix* A, float num, struct matrix** y)
     return;
 }
 
-void matrix_apply_func(struct matrix* A, float* func(float), struct matrix** y)
+void matrix_apply_func(struct matrix* A, float (*func)(float), struct matrix** y)
 {
     struct matrix* temporary = init_matrix(A->rows, A->columns);
 
@@ -209,7 +209,7 @@ void matrix_apply_func(struct matrix* A, float* func(float), struct matrix** y)
     // Apply the function to every element of the matrix here
     for (int i = 0; i < A->rows; i++) {
         for (int j = 0; j < A->columns; j++) {
-            temporary->matrix_ptr[i][j] = *func(A->matrix_ptr[i][j]);
+            temporary->matrix_ptr[i][j] = func(A->matrix_ptr[i][j]);
         }
     }
 
