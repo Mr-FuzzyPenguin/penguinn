@@ -41,3 +41,10 @@
 - `silu_derivative()` written
 - Delete the stale branches
 - Fixed Makefile
+
+## 10/01/2026:
+### C-programming side:
+- Revamped the RNG by using a struct and a custom self-updating function
+
+### QoL side:
+- Data annotation on a few images, deleted repeating hashes (and repeating images)
