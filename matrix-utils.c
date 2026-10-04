@@ -4,7 +4,8 @@
 
 void free_matrix(struct matrix** m)
 {
-    if (*m == NULL)
+    // given a NULL pointer or the address stored at (address m) is NULL
+    if (m == NULL & *m == NULL)
         return;
 
     for (int i = 0; i < (*m)->rows; i++)
@@ -19,16 +20,17 @@ void free_matrix(struct matrix** m)
 
 struct matrix* init_matrix(int r, int c)
 {
-    // attempt to make a new matrix
-    struct matrix* m = malloc(sizeof(struct matrix));
-    // not possible. Return NULL
-    if (m == NULL) {
+    // cannot have a matrix of 0 rows or 0 columns
+    // (or less of either)
+    // because that makes no sense
+    if (r <= 0 || c <= 0) {
         return NULL;
     }
 
-    // cannot have a matrix of 0 rows or 0 columns
-    // because that makes no sense
-    if (r == 0 || c == 0) {
+    // attempt to make a new matrix
+    struct matrix* m = malloc(sizeof(*m));
+    // not possible. Return NULL
+    if (m == NULL) {
         return NULL;
     }
 
@@ -38,7 +40,7 @@ struct matrix* init_matrix(int r, int c)
 
     // check if assigning number of rows (horizontal) is possible.
     // if not possible, free the earlier new_matrix
-    if ((m->matrix_ptr = malloc(r * sizeof(float*))) == NULL) {
+    if ((m->matrix_ptr = calloc(r, sizeof(*m->matrix_ptr))) == NULL) {
         free(m);
         return NULL;
     }
@@ -46,7 +48,7 @@ struct matrix* init_matrix(int r, int c)
     // now make a loop to malloc the number of columns (vertical) per row
     for (int row = 0; row < r; row++) {
         // check if cannot allocate more space for number of columns
-        if ((m->matrix_ptr[row] = malloc(c * sizeof(float))) == NULL) {
+        if ((m->matrix_ptr[row] = calloc(c, sizeof(m->matrix_ptr[row]))) == NULL) {
             free_matrix(&m);
             return NULL;
         }

@@ -48,3 +48,15 @@
 
 ### QoL side:
 - Data annotation on a few images, deleted repeating hashes (and repeating images)
+
+## 10/01/2026:
+- Took a break
+
+## 10/03/2026:
+### C-programming side:
+- Began: Adding layer struct
+- Began: Adding layer initialization
+- Added a bunch of fixes to memory allocation for matrix
+
+### QoL side:
+- ChatGPT fuzzed my code and yelled at "my matrices’ myriads, multitudes, magnificent memory-management mishaps.”
