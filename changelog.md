@@ -59,4 +59,14 @@
 - Added a bunch of fixes to memory allocation for matrix
 
 ### QoL side:
-- ChatGPT fuzzed my code and yelled at "my matrices’ myriads, multitudes, magnificent memory-management mishaps.”
+- ChatGPT fuzzed my code and yelled at "my matrices’ myriads, multitudes, magnificent memory-management mishaps."
+
+## 10/04/2026:
+### C-programming side:
+- Began: Reading on `pnglib.h`
+- Began: Operations on file-traversal and reading directories on Linux
+- Had a, "yo legit, what on Earth are you doing"? Moment with writing the layer initialization. Will need a rewrite soon
+
+### QoL side:
+- Speaking about pngs, I revamped my scraper, and started gathering them into one directory for a collective.
+- Expanding my dataset with my new scraper.

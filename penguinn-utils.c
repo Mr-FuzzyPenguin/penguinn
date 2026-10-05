@@ -5,16 +5,17 @@
 
 double pseudo_rng(struct rand* r)
 {
-    double result = (double)(r->seed * r->state % 65536) / 256;
-    r->state = (int)((r->seed * result) + 17);
+    long seed_state = r->seed * r->state;
+    double result = ((double)(seed_state % 65535)) / 65534.0;
+    r->state = (long)(seed_state + 17);
 
     return result;
 }
 
-struct layer* init_layer(int inputs, int neurons, float (*func)(float))
+struct layer* init_layer(int inputs, int neurons, float (*func)(float), struct rand* r)
 {
     // try to allocate enough space for a new layer
-    struct layer* l = malloc(sizeof(struct layer));
+    struct layer* l = malloc(sizeof(*l));
     if (l == NULL) {
         return NULL;
     }
@@ -28,14 +29,15 @@ struct layer* init_layer(int inputs, int neurons, float (*func)(float))
     // input: inputs x 1
     // bias: neurons x 1
     // result shape = neurons x 1
-    l->input = init_matrix(inputs, 1);
+
+    l->input = NULL; // NULL for now. Not provided upon initialization
     l->weight = init_matrix(neurons, inputs);
     l->bias = init_matrix(neurons, 1);
     l->activation_func = func;
-    l->output = init_matrix(neurons, 1);
+    l->output = NULL; // NULL for now. Not updated until run_layer() is called
 
     // if not all of the fields successfully allocated, free everything and return NULL
-    if (l->input == NULL || l->weight == NULL || l->bias == NULL || l->output == NULL) {
+    if (l->weight == NULL || l->bias == NULL) {
         free_matrix(&l->input);
         free_matrix(&l->weight);
         free_matrix(&l->bias);
@@ -48,9 +50,43 @@ struct layer* init_layer(int inputs, int neurons, float (*func)(float))
     l->propagating_error_signal = NULL;
     l->error_signal_size = 0;
 
-    // TODO: Set the empty matrix to random values for l->weight
+    // NOTE: This sets the empty matrix to random values for l->weight
+    for (int i = 0; i < neurons; i++) {
+        // remember: inputs are columns, outputs are rows
+        for (int j = 0; j < inputs; j++) {
+            l->weight->matrix_ptr[i][j] = (float)(pseudo_rng(r)) / 128.0f - 1.0f;
+        }
+        l->bias->matrix_ptr[i][0] = 0;
+    }
 
     return l;
+}
+
+void stimulate_layer(struct matrix* m, struct layer** l)
+{
+    (*l)->input = m;
+}
+
+void run_layer(struct layer** l)
+{
+    if ((*l)->input == NULL) {
+        return;
+    }
+    struct matrix* intermediary = NULL;
+
+    // m = Wx
+    matrix_multiply((*l)->weight, (*l)->input, &intermediary);
+
+    // z = m + b
+    matrix_add(intermediary, (*l)->bias, &intermediary);
+
+    // y = f(z)
+    matrix_apply_func(intermediary, (*l)->activation_func, &intermediary);
+
+    // free the prior output
+    free_matrix(&(*l)->output);
+    // update the output
+    (*l)->output = intermediary;
 }
 
 float silu(float x)
