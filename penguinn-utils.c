@@ -3,16 +3,16 @@
 #include <math.h>
 #include <stdlib.h>
 
-double pseudo_rng(struct rand* r)
+long pseudo_rng(long* r)
 {
-    long seed_state = r->seed * r->state;
-    double result = ((double)(seed_state % 65535)) / 65534.0;
-    r->state = (long)(seed_state + 17);
+    long a = 1103515245;
+    long c = 12345;
+    long m = 2 << 30;
 
-    return result;
+    return (a * *r + c) % m;
 }
 
-struct layer* init_layer(int inputs, int neurons, float (*func)(float), struct rand* r)
+struct layer* init_layer(int inputs, int neurons, float (*func)(float), long* r)
 {
     // try to allocate enough space for a new layer
     struct layer* l = malloc(sizeof(*l));
@@ -54,7 +54,7 @@ struct layer* init_layer(int inputs, int neurons, float (*func)(float), struct r
     for (int i = 0; i < neurons; i++) {
         // remember: inputs are columns, outputs are rows
         for (int j = 0; j < inputs; j++) {
-            l->weight->matrix_ptr[i][j] = (float)(pseudo_rng(r)) / 128.0f - 1.0f;
+            l->weight->matrix_ptr[i][j] = pseudo_rng(r);
         }
         l->bias->matrix_ptr[i][0] = 0;
     }

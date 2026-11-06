@@ -1,41 +1,30 @@
-#include "matrix-utils.h"
-#include "penguinn-utils.h"
+#include "sys-utils.h"
+#include <dirent.h>
+#include <png.h>
 #include <stdio.h>
-#include <stdlib.h>
+#include <string.h>
+#define PHOTO_COUNT 3954 + 4
+#define ENTRY_DIR "../data/collective"
 
-#define INITIAL_STATE 5129
-#define RANDOM_SEED 71
+/*
+// I'll just include string.h
+// however, here's my implementation of strcmp
+// (just for reference only)
+int strcmp(char* a, char* b)
+{
+    char return_val = 0;
+    int i = 0;
+    while (a[i] && b[i] && !return_val)
+        return_val = b[i] - a[i++];
+    // if it reaches here then it has found a
+    // first difference in the string (or ended)
+    return return_val;
+}
+*/
 
 int main(void)
 {
-    struct rand r = { RANDOM_SEED, INITIAL_STATE };
-
-    struct matrix* A = init_matrix(2, 3);
-    struct matrix* b = init_matrix(3, 5);
-
-    struct matrix* result = NULL;
-
-    for (int i = 0; i < A->rows; i++) {
-        for (int j = 0; j < A->columns; j++) {
-            A->matrix_ptr[i][j] = (int)(pseudo_rng(&r)) % 10;
-        }
-    }
-    disp_matrix(A);
-
-    puts("applied by SiLU...");
-
-    // for (int i = 0; i < b->rows; i++) {
-    //     for (int j = 0; j < b->columns; j++) {
-    //         b->matrix_ptr[i][j] = (int)pseudo_rng(seed, &state) & 10;
-    //     }
-    // }
-    // disp_matrix(b);
-    //
-    // matrix_multiply(A, b, &result);
-
-    matrix_apply_func(A, silu, &A);
-    puts("=");
-    disp_matrix(A);
-
+    return_png_paths(ENTRY_DIR);
+    printf("%d", is_file_extension("asdf//../././../something.png", ".png"));
     return 0;
 }
